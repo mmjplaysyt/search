@@ -14,25 +14,30 @@
     flex-direction: column;
   }
 
-  /* === HEADER NAV (Home View) === */
+  /* === HEADER NAV === */
   .header-nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 10px 16px;
-    gap: 12px;
+    gap: 4px;
     font-size: 13px;
   }
 
-  .header-nav a {
+  .header-nav a, .header-nav button {
     color: rgba(0,0,0,0.87);
     text-decoration: none;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 4px;
     transition: background 0.2s;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
   }
 
-  .header-nav a:hover {
+  .header-nav a:hover, .header-nav button:hover {
     background: rgba(0,0,0,0.05);
     text-decoration: underline;
   }
@@ -82,7 +87,7 @@
 
   .avatar:hover { box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
 
-  /* === MAIN CONTENT (Home View) === */
+  /* === MAIN CONTENT === */
   .main-content {
     flex: 1;
     display: flex;
@@ -107,7 +112,7 @@
   .logo-j { color: #FBBC05; }
   .logo-s { color: #4285F4; }
   .logo-e { color: #34A853; }
-  .logo-a2 { color: #EA4335; }
+  .logo-a { color: #EA4335; }
   .logo-r { color: #FBBC05; }
   .logo-c { color: #4285F4; }
   .logo-h { color: #34A853; }
@@ -119,6 +124,7 @@
     padding: 0 16px;
     margin-bottom: 18px;
     position: relative;
+    z-index: 50;
   }
 
   .search-bar {
@@ -201,7 +207,7 @@
     height: 36px;
     min-width: 54px;
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
     user-select: none;
   }
 
@@ -212,18 +218,22 @@
   }
 
   /* === SUGGESTIONS DROPDOWN === */
-  .suggestions-box {
+  .suggestions-container {
+    width: 100%;
     position: absolute;
-    top: 50px;
-    left: 16px;
-    right: 16px;
+    top: 46px;
+    left: 0;
+    padding: 0 16px;
+    z-index: 100;
+  }
+
+  .suggestions-box {
     background: #fff;
     border-radius: 0 0 24px 24px;
     box-shadow: 0 4px 6px rgba(32,33,36,0.28);
     border-top: 1px solid #e8eaed;
     display: none;
     overflow: hidden;
-    z-index: 100;
   }
 
   .suggestions-box.visible { display: block; }
@@ -240,137 +250,56 @@
   }
 
   .suggestion-item:hover { background: #eee; }
-  .suggestion-item svg { width: 16px; height: 16px; fill: #9aa0a6; flex-shrink: 0; }
 
-  /* =========================================
-     RESULTS PAGE STYLES
-     ========================================= */
-  #resultsView {
-    display: none;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
-  .results-header {
-    background: #fff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-
-  .results-logo {
-    font-size: 32px;
-    font-weight: 400;
-    letter-spacing: -1px;
-    cursor: pointer;
+  .suggestion-item svg {
+    width: 16px;
+    height: 16px;
+    fill: #9aa0a6;
     flex-shrink: 0;
   }
 
-  .results-search-bar {
-    flex: 1;
-    max-width: 600px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #dfe1e5;
-    border-radius: 24px;
-    padding: 0 14px;
-    height: 40px;
-    transition: box-shadow 0.2s, border-color 0.2s;
-    background: #fff;
+  .suggestion-item .indexed-tag {
+    margin-left: auto;
+    font-size: 10px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
   }
 
-  .results-search-bar:hover,
-  .results-search-bar:focus-within {
-    box-shadow: 0 1px 6px rgba(32,33,36,0.28);
-    border-color: rgba(223,225,229,0);
+  /* === FOOTER === */
+  .footer {
+    background: #f2f2f2;
+    margin-top: auto;
   }
 
-  .results-search-bar input {
-    flex: 1;
-    border: none;
-    outline: none;
+  .footer-top {
+    padding: 15px 30px;
+    border-bottom: 1px solid #dadce0;
     font-size: 15px;
-    color: rgba(0,0,0,0.87);
-    height: 100%;
-    font-family: arial, sans-serif;
+    color: rgba(0,0,0,0.54);
   }
 
-  .results-search-icon { width: 18px; height: 18px; fill: #9aa0a6; margin-right: 10px; }
-
-  .results-body {
-    padding: 24px 0 40px 140px;
-    max-width: 800px;
-  }
-
-  .results-stats {
-    font-size: 13px;
-    color: #70757a;
-    margin-bottom: 20px;
-  }
-
-  .result-item {
-    margin-bottom: 28px;
-    max-width: 600px;
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .result-url {
-    font-size: 13px;
-    color: #202124;
-    margin-bottom: 4px;
+  .footer-bottom {
+    padding: 12px 30px;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 8px;
   }
 
-  .result-url-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-
-  .result-title {
-    font-size: 20px;
-    color: #1a0dab;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    margin-bottom: 4px;
-    line-height: 1.3;
-  }
-
-  .result-title:hover { text-decoration: underline; }
-
-  .result-desc {
-    font-size: 14px;
-    color: #4d5156;
-    line-height: 1.55;
-  }
-
-  .no-results {
-    text-align: center;
-    padding: 40px 20px;
+  .footer-bottom a {
     color: #70757a;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0 8px;
+    cursor: pointer;
   }
 
-  .no-results-icon { font-size: 64px; margin-bottom: 16px; }
-  .no-results h2 { font-size: 20px; color: #202124; margin-bottom: 8px; }
-  .no-results p { font-size: 15px; line-height: 1.5; }
+  .footer-bottom a:hover { text-decoration: underline; }
+
+  .footer-left, .footer-right { display: flex; flex-wrap: wrap; gap: 0; }
 
   /* === APPS DROPDOWN === */
   .apps-dropdown {
@@ -420,43 +349,189 @@
 
   .app-shortcut-label { font-size: 11px; text-align: center; line-height: 1.2; }
 
-  /* === FOOTER === */
-  .footer {
-    background: #f2f2f2;
-    margin-top: auto;
+  /* === INDEX MODAL (Google Style Popup) === */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s;
   }
 
-  .footer-top {
-    padding: 15px 30px;
-    border-bottom: 1px solid #dadce0;
-    font-size: 15px;
-    color: rgba(0,0,0,0.54);
+  .modal-overlay.visible { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 8px;
+    width: 480px;
+    max-width: 90vw;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    overflow: hidden;
+    animation: slideUp 0.3s ease-out;
   }
 
-  .footer-bottom {
-    padding: 12px 30px;
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .modal-header h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: #202124;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #5f6368;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: #f1f3f4; }
+
+  .modal-body {
+    padding: 24px;
+  }
+
+  .modal-body p {
+    font-size: 13px;
+    color: #5f6368;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    color: #5f6368;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .form-group input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: arial, sans-serif;
+  }
+
+  .form-group input:focus {
+    border-color: #4285F4;
+    box-shadow: 0 0 0 1px #4285F4;
+  }
+
+  .modal-footer {
+    padding: 12px 24px 20px;
+    display: flex;
+    justify-content: flex-end;
     gap: 8px;
   }
 
-  .footer-bottom a {
-    color: #70757a;
-    text-decoration: none;
+  .modal-btn {
+    height: 36px;
+    padding: 0 24px;
+    border-radius: 4px;
     font-size: 14px;
-    padding: 0 8px;
+    font-family: arial, sans-serif;
+    cursor: pointer;
+    border: 1px solid #dadce0;
+    transition: background 0.15s;
   }
 
-  .footer-bottom a:hover { text-decoration: underline; }
-  .footer-left, .footer-right { display: flex; flex-wrap: wrap; gap: 0; }
+  .modal-btn-cancel {
+    background: #fff;
+    color: #1a73e8;
+    border-color: #dadce0;
+  }
+
+  .modal-btn-cancel:hover { background: #f8f9fa; }
+
+  .modal-btn-submit {
+    background: #1a73e8;
+    color: #fff;
+    border-color: #1a73e8;
+  }
+
+  .modal-btn-submit:hover { background: #1557b0; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+  /* Success message inside modal */
+  .submit-success {
+    display: none;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .submit-success.visible { display: block; }
+
+  .submit-success .checkmark {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e8f5e9;
+    color: #34A853;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+
+  .submit-success h3 { color: #202124; font-size: 18px; font-weight: 400; margin-bottom: 6px; }
+  .submit-success p { color: #5f6368; font-size: 13px; margin-bottom: 16px; }
+
+  /* === TOAST NOTIFICATION === */
+  .toast {
+    position: fixed;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #323232;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 2000;
+    transition: bottom 0.3s ease;
+  }
+
+  .toast.show { bottom: 40px; }
 
   /* === RESPONSIVE === */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .logo { font-size: 56px; letter-spacing: -2px; }
     .main-content { padding-top: 12vh; }
-    .results-body { padding: 20px 16px 40px; }
-    .results-logo { font-size: 24px; }
     .footer-bottom { justify-content: center; }
     .footer-left, .footer-right { justify-content: center; }
     .apps-dropdown { right: 8px; left: 8px; width: auto; }
@@ -465,365 +540,291 @@
 </head>
 <body>
 
-<!-- =========================================
-     HOME VIEW
-     ========================================= -->
-<div id="homeView">
-  <div class="header-nav">
-    <a href="#">MMJ Mail</a>
-    <a href="#">Images</a>
-    <div class="apps-btn" id="appsBtn" onclick="toggleAppsMenu()">
-      <div class="apps-grid-icon">
-        <span></span><span></span><span></span>
-        <span></span><span></span><span></span>
-        <span></span><span></span><span></span>
-      </div>
+<!-- HEADER -->
+<div class="header-nav">
+  <a href="https://mmjplaysyt.github.io/search">MMJ Mail</a>
+  <a href="https://mmjplaysyt.github.io/search">Images</a>
+  <button onclick="openIndexModal()">Index a Page</button>
+  <div class="apps-btn" id="appsBtn" onclick="toggleAppsMenu()">
+    <div class="apps-grid-icon">
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span>
     </div>
-    <a href="https://mmjplaysyt.work.gd/Minecraft" style="text-decoration:none;">
-      <div class="avatar">M</div>
+  </div>
+  <a href="https://mmjplaysyt.work.gd/Minecraft" style="text-decoration:none;">
+    <div class="avatar">M</div>
+  </a>
+</div>
+
+<!-- APPS DROPDOWN -->
+<div class="apps-dropdown" id="appsDropdown">
+  <div class="apps-dropdown-grid">
+    <a href="https://mmjplaysyt.github.io/AI-Asistent/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;">🤖</div>
+      <div class="app-shortcut-label">AI Assistant</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/social-media/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;">💬</div>
+      <div class="app-shortcut-label">Social Media</div>
+    </a>
+    <a href="https://mmjplaysyt.work.gd/Minecraft" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#0078d4,#00b4d8);color:#fff;">🌐</div>
+      <div class="app-shortcut-label">Webpage</div>
+    </a>
+    <a href="https://mmjgaming.github.io/Minecraft-/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;">⛏️</div>
+      <div class="app-shortcut-label">Minecraft</div>
+    </a>
+    <a href="https://mmjgaming.github.io/academy/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;">🎓</div>
+      <div class="app-shortcut-label">Academy</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/code-org/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;">💻</div>
+      <div class="app-shortcut-label">Learn Code</div>
     </a>
   </div>
+</div>
 
-  <!-- APPS DROPDOWN -->
-  <div class="apps-dropdown" id="appsDropdown">
-    <div class="apps-dropdown-grid">
-      <a href="https://mmjplaysyt.github.io/AI-Asistent/" target="_blank" class="app-shortcut">
-        <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;">🤖</div>
-        <div class="app-shortcut-label">AI Assistant</div>
-      </a>
-      <a href="https://mmjplaysyt.github.io/social-media/" target="_blank" class="app-shortcut">
-        <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;">💬</div>
-        <div class="app-shortcut-label">Social Media</div>
-      </a>
-      <a href="https://mmjplaysyt.work.gd/Minecraft" target="_blank" class="app-shortcut">
-        <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#0078d4,#00b4d8);color:#fff;">🌐</div>
-        <div class="app-shortcut-label">Webpage</div>
-      </a>
-      <a href="https://mmjgaming.github.io/Minecraft-/" target="_blank" class="app-shortcut">
-        <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;">⛏️</div>
-        <div class="app-shortcut-label">Minecraft</div>
-      </a>
-      <a href="https://mmjgaming.github.io/academy/" target="_blank" class="app-shortcut">
-        <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;">🎓</div>
-        <div class="app-shortcut-label">Academy</div>
-      </a>
-      <a href="https://mmjplaysyt.github.io/code-org/" target="_blank" class="app-shortcut">
-        <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;">💻</div>
-        <div class="app-shortcut-label">Learn Code</div>
-      </a>
-    </div>
+<!-- MAIN -->
+<div class="main-content">
+  <div class="logo">
+    <span class="logo-m1">M</span><span class="logo-m2">M</span><span class="logo-j">J</span>
+    <span class="logo-s">S</span><span class="logo-e">e</span><span class="logo-a">a</span><span class="logo-r">r</span><span class="logo-c">c</span><span class="logo-h">h</span>
   </div>
 
-  <div class="main-content">
-    <div class="logo">
-      <span class="logo-m1">M</span><span class="logo-m2">M</span><span class="logo-j">J</span>
-      <span class="logo-s">S</span><span class="logo-e">e</span><span class="logo-a2">a</span><span class="logo-r">r</span><span class="logo-c">c</span><span class="logo-h">h</span>
-    </div>
-
-    <form class="search-container" id="searchForm" onsubmit="performSearch(event)">
-      <div class="search-bar" id="searchBar">
-        <svg class="search-icon" viewBox="0 0 24 24"><path fill="#9aa0a6" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <input type="text" id="homeSearchInput" autocomplete="off" placeholder="Search MMJ..." oninput="showHomeSuggestions()" onfocus="showHomeSuggestions()" />
-        <div class="search-bar-right">
-          <div class="clear-btn" id="homeClearBtn" onclick="clearHomeSearch()">✕</div>
-        </div>
+  <form class="search-container" action="https://www.google.com/search" method="GET" id="searchForm" onsubmit="handleSearch(event)">
+    <div class="search-bar" id="searchBar">
+      <svg class="search-icon" viewBox="0 0 24 24"><path fill="#9aa0a6" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" name="q" id="searchInput" autocomplete="off" placeholder="Search MMJ or type a URL" oninput="onInputChange()" onfocus="showSuggestions()" />
+      <div class="search-bar-right">
+        <div class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</div>
+        <svg viewBox="0 0 24 24" style="width:24px;height:24px;cursor:pointer;fill:#4285F4"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
       </div>
-      <div class="suggestions-box" id="homeSuggestionsBox"></div>
-    </form>
-
-    <div class="search-buttons">
-      <button class="search-btn" type="submit" form="searchForm">MMJ Search</button>
-      <button class="search-btn" type="button" onclick="feelingLucky()">I'm Feeling Lucky</button>
     </div>
+    <div class="suggestions-container" id="suggestionsContainer">
+      <div class="suggestions-box" id="suggestionsBox"></div>
+    </div>
+  </form>
+
+  <div class="search-buttons">
+    <button class="search-btn" type="submit" form="searchForm">MMJ Search</button>
+    <button class="search-btn" type="submit" form="searchForm" name="btnI" value="1">I'm Feeling Lucky</button>
   </div>
+</div>
 
-  <div class="footer">
-    <div class="footer-top">MMJland</div>
-    <div class="footer-bottom">
-      <div class="footer-left">
-        <a href="#">About</a>
-        <a href="#">Advertising</a>
-        <a href="https://mmjplaysyt.work.gd/Minecraft">Business</a>
-      </div>
-      <div class="footer-right">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Settings</a>
-      </div>
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-top">MMJland</div>
+  <div class="footer-bottom">
+    <div class="footer-left">
+      <a href="#">About</a>
+      <a href="#">Advertising</a>
+      <a href="#">Business</a>
+      <a href="https://mmjplaysyt.github.io/search">How Search works</a>
+    </div>
+    <div class="footer-right">
+      <a href="#" onclick="openIndexModal(); return false;">Submit URL</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Settings</a>
     </div>
   </div>
 </div>
 
-<!-- =========================================
-     RESULTS VIEW
-     ========================================= -->
-<div id="resultsView">
-  <div class="results-header">
-    <div class="results-logo" onclick="goHome()">
-      <span class="logo-m1">M</span><span class="logo-m2">M</span><span class="logo-j">J</span>
+<!-- INDEX MODAL -->
+<div class="modal-overlay" id="indexModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Index a Page</h2>
+      <button class="modal-close" onclick="closeIndexModal()">✕</button>
     </div>
-    <form class="results-search-bar" onsubmit="performResultsSearch(event)">
-      <svg class="results-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      <input type="text" id="resultsSearchInput" autocomplete="off" />
-    </form>
-    <a href="https://mmjplaysyt.work.gd/Minecraft" style="text-decoration:none; margin-left:auto;">
-      <div class="avatar">M</div>
-    </a>
-  </div>
-
-  <div class="results-body">
-    <div class="results-stats" id="resultsStats"></div>
-    <div id="resultsContainer"></div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-top">MMJland</div>
-    <div class="footer-bottom">
-      <div class="footer-left">
-        <a href="#">About</a>
-        <a href="#">Advertising</a>
-        <a href="https://mmjplaysyt.work.gd/Minecraft">Business</a>
+    <div class="modal-body" id="modalFormView">
+      <p>Add your webpage to the MMJ Search index. Once submitted, it will be immediately searchable from the MMJ Search bar on your device.</p>
+      <div class="form-group">
+        <label>Page URL *</label>
+        <input type="url" id="indexUrl" placeholder="https://example.com/page" required>
       </div>
-      <div class="footer-right">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Settings</a>
+      <div class="form-group">
+        <label>Page Title *</label>
+        <input type="text" id="indexTitle" placeholder="My Awesome Website" required>
       </div>
+    </div>
+    <div class="modal-body" id="modalSuccessView" class="submit-success">
+      <div class="submit-success visible">
+        <div class="checkmark">✓</div>
+        <h3>URL Submitted for Indexing</h3>
+        <p>Your page is now indexed and instantly searchable on this browser!</p>
+      </div>
+    </div>
+    <div class="modal-footer" id="modalFooter">
+      <button class="modal-btn modal-btn-cancel" onclick="closeIndexModal()">Cancel</button>
+      <button class="modal-btn modal-btn-submit" id="submitIndexBtn" onclick="submitForIndexing()">Index Now</button>
     </div>
   </div>
 </div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Page indexed successfully!</div>
 
 <script>
-  // === MMJ DATABASE ===
-  const mmjDatabase = [
-    {
-      title: "AI Assistant - MMJ Apps",
-      url: "https://mmjplaysyt.github.io/AI-Asistent/",
-      urlClean: "mmjplaysyt.github.io › AI-Asistent",
-      desc: "Your smart AI chat companion powered by MMJ. Ask anything, get instant answers, and explore the power of artificial intelligence right in your browser.",
-      icon: "🤖",
-      iconBg: "linear-gradient(135deg,#6c5ce7,#a855f7)",
-      keywords: "ai, assistant, chat, bot, smart, artificial intelligence, mmj"
-    },
-    {
-      title: "Social Media - MMJ Apps",
-      url: "https://mmjplaysyt.github.io/social-media/",
-      urlClean: "mmjplaysyt.github.io › social-media",
-      desc: "Connect and share with the MMJ community. Post updates, chat with friends, and explore your personalized social feed.",
-      icon: "💬",
-      iconBg: "linear-gradient(135deg,#e74c3c,#f39c12)",
-      keywords: "social, media, connect, share, chat, community, friends, feed"
-    },
-    {
-      title: "MMJ Webpage - Official Site",
-      url: "https://mmjplaysyt.work.gd/Minecraft",
-      urlClean: "mmjplaysyt.work.gd › Minecraft",
-      desc: "The official MMJ Webpage. Explore all our services, projects, Minecraft server details, and the latest updates from the MMJ team.",
-      icon: "🌐",
-      iconBg: "linear-gradient(135deg,#0078d4,#00b4d8)",
-      keywords: "webpage, official, website, home, mmj, minecraft, server"
-    },
-    {
-      title: "Minecraft - MMJ Gaming",
-      url: "https://mmjgaming.github.io/Minecraft-/",
-      urlClean: "mmjgaming.github.io › Minecraft-",
-      desc: "Play and explore Minecraft with MMJ Gaming. The ultimate Minecraft experience featuring custom maps, guides, and community content.",
-      icon: "⛏️",
-      iconBg: "linear-gradient(135deg,#2ecc71,#27ae60)",
-      keywords: "minecraft, mc, game, play, gaming, blocks, server, mojang"
-    },
-    {
-      title: "Academy - MMJ Gaming",
-      url: "https://mmjgaming.github.io/academy/",
-      urlClean: "mmjgaming.github.io › academy",
-      desc: "Learn and grow with MMJ Academy. Access educational resources, courses, and tutorials tailored to help you master new skills.",
-      icon: "🎓",
-      iconBg: "linear-gradient(135deg,#f39c12,#e67e22)",
-      keywords: "academy, learn, school, education, courses, study, teaching"
-    },
-    {
-      title: "Learn Code - MMJ Apps",
-      url: "https://mmjplaysyt.github.io/code-org/",
-      urlClean: "mmjplaysyt.github.io › code-org",
-      desc: "Start your coding journey with MMJ. Interactive code tutorials, programming resources, and challenges for beginners and experts alike.",
-      icon: "💻",
-      iconBg: "linear-gradient(135deg,#3498db,#2980b9)",
-      keywords: "code, coding, programming, learn, developer, python, html, javascript, computer science"
-    }
+  const searchInput = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  const suggestionsBox = document.getElementById('suggestionsBox');
+  const appsBtn = document.getElementById('appsBtn');
+  const appsDropdown = document.getElementById('appsDropdown');
+  const indexModal = document.getElementById('indexModal');
+
+  // Default MMJ Apps
+  const defaultApps = [
+    { name: 'AI Assistant', url: 'https://mmjplaysyt.github.io/AI-Asistent/', icon: '🤖', type: 'app' },
+    { name: 'Social Media', url: 'https://mmjplaysyt.github.io/social-media/', icon: '💬', type: 'app' },
+    { name: 'MMJ Webpage', url: 'https://mmjplaysyt.work.gd/Minecraft', icon: '🌐', type: 'app' },
+    { name: 'Minecraft', url: 'https://mmjgaming.github.io/Minecraft-/', icon: '⛏️', type: 'app' },
+    { name: 'Academy', url: 'https://mmjgaming.github.io/academy/', icon: '🎓', type: 'app' },
+    { name: 'Learn Code', url: 'https://mmjplaysyt.github.io/code-org/', icon: '💻', type: 'app' }
   ];
 
-  // === HOME SEARCH FUNCTIONS ===
-  const homeSearchInput = document.getElementById('homeSearchInput');
-  const homeClearBtn = document.getElementById('homeClearBtn');
-  const homeSuggestionsBox = document.getElementById('homeSuggestionsBox');
-
-  homeSearchInput.addEventListener('input', () => {
-    homeClearBtn.classList.toggle('visible', homeSearchInput.value.length > 0);
-    showHomeSuggestions();
-  });
-
-  function clearHomeSearch() {
-    homeSearchInput.value = '';
-    homeClearBtn.classList.remove('visible');
-    homeSuggestionsBox.classList.remove('visible');
-    homeSearchInput.focus();
+  // Local Storage Indexing Functions
+  function getIndexedPages() {
+    const pages = localStorage.getItem('mmj_indexed_pages');
+    return pages ? JSON.parse(pages) : [];
   }
 
-  function showHomeSuggestions() {
-    const query = homeSearchInput.value.toLowerCase().trim();
-    if (!query) {
-      homeSuggestionsBox.classList.remove('visible');
+  function saveIndexedPage(page) {
+    const pages = getIndexedPages();
+    pages.push(page);
+    localStorage.setItem('mmj_indexed_pages', JSON.stringify(pages));
+  }
+
+  // Search & Suggestions
+  function onInputChange() {
+    clearBtn.classList.toggle('visible', searchInput.value.length > 0);
+    if (searchInput.value.length > 0) {
+      showSuggestions();
+    } else {
+      hideSuggestions();
+    }
+  }
+
+  function clearSearch() {
+    searchInput.value = '';
+    clearBtn.classList.remove('visible');
+    hideSuggestions();
+    searchInput.focus();
+  }
+
+  function showSuggestions() {
+    const query = searchInput.value.toLowerCase().trim();
+    const indexedPages = getIndexedPages().map(p => ({ ...p, type: 'indexed', icon: '📄' }));
+    const allItems = [...defaultApps, ...indexedPages];
+
+    if (!query) { hideSuggestions(); return; }
+
+    const matches = allItems.filter(item => item.name.toLowerCase().includes(query) || item.url.toLowerCase().includes(query));
+
+    if (matches.length > 0) {
+      suggestionsBox.innerHTML = matches.map(item => `
+        <div class="suggestion-item" onclick="window.open('${item.url}', '_blank')">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <span>${item.icon} ${item.name}</span>
+          ${item.type === 'indexed' ? '<span class="indexed-tag">INDEXED</span>' : ''}
+        </div>
+      `).join('');
+      suggestionsBox.classList.add('visible');
+    } else {
+      suggestionsBox.innerHTML = `
+        <div class="suggestion-item" onclick="document.getElementById('searchForm').submit()">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <span>Search Google for "<strong>${searchInput.value}</strong>"</span>
+        </div>
+      `;
+      suggestionsBox.classList.add('visible');
+    }
+  }
+
+  function hideSuggestions() {
+    suggestionsBox.classList.remove('visible');
+  }
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const query = searchInput.value.trim();
+    if (query) {
+      window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+    }
+  }
+
+  // APPS DROPDOWN
+  function toggleAppsMenu() {
+    appsDropdown.classList.toggle('visible');
+  }
+
+  // INDEX MODAL
+  function openIndexModal() {
+    document.getElementById('modalFormView').style.display = 'block';
+    document.getElementById('modalSuccessView').style.display = 'none';
+    document.getElementById('submitIndexBtn').style.display = 'block';
+    document.getElementById('indexUrl').value = '';
+    document.getElementById('indexTitle').value = '';
+    indexModal.classList.add('visible');
+    appsDropdown.classList.remove('visible');
+  }
+
+  function closeIndexModal() {
+    indexModal.classList.remove('visible');
+  }
+
+  function submitForIndexing() {
+    const url = document.getElementById('indexUrl').value.trim();
+    const title = document.getElementById('indexTitle').value.trim();
+
+    if (!url || !title) {
+      alert('Please fill out both the URL and Title fields.');
       return;
     }
 
-    const matches = mmjDatabase.filter(item => 
-      item.title.toLowerCase().includes(query) || 
-      item.keywords.toLowerCase().includes(query) ||
-      item.desc.toLowerCase().includes(query)
-    );
+    // Save to local storage
+    saveIndexedPage({ name: title, url: url });
 
-    if (matches.length > 0) {
-      homeSuggestionsBox.innerHTML = matches.map(item => `
-        <div class="suggestion-item" onclick="window.location.href='${item.url}'">
-          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <span>${item.icon} ${item.title}</span>
-        </div>
-      `).join('');
-      homeSuggestionsBox.classList.add('visible');
-    } else {
-      homeSuggestionsBox.innerHTML = `
-        <div class="suggestion-item">
-          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-          <span>Search MMJ for "<strong>${homeSearchInput.value}</strong>"</span>
-        </div>
-      `;
-      homeSuggestionsBox.classList.add('visible');
-    }
+    // Show success view inside modal
+    document.getElementById('modalFormView').style.display = 'none';
+    document.getElementById('modalSuccessView').style.display = 'block';
+    document.getElementById('submitIndexBtn').style.display = 'none';
+
+    // Show toast
+    showToast('Page indexed successfully! Try searching for it now.');
+
+    // Auto-close modal after 2.5 seconds
+    setTimeout(() => {
+      closeIndexModal();
+    }, 2500);
   }
 
-  // === PERFORM SEARCH (Home) ===
-  function performSearch(e) {
-    e.preventDefault();
-    const query = homeSearchInput.value.trim();
-    if (query) {
-      showResultsPage(query);
-    }
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => { toast.classList.remove('show'); }, 3000);
   }
 
-  // === PERFORM SEARCH (Results Page) ===
-  function performResultsSearch(e) {
-    e.preventDefault();
-    const query = document.getElementById('resultsSearchInput').value.trim();
-    if (query) {
-      renderResults(query);
-    }
-  }
-
-  // === FEELING LUCKY ===
-  function feelingLucky() {
-    const query = homeSearchInput.value.trim().toLowerCase();
-    if (query) {
-      const match = mmjDatabase.find(item => 
-        item.title.toLowerCase().includes(query) || 
-        item.keywords.toLowerCase().includes(query)
-      );
-      if (match) {
-        window.location.href = match.url;
-      } else {
-        window.location.href = mmjDatabase[0].url; // default to first
-      }
-    } else {
-      window.location.href = mmjDatabase[3].url; // Default to Minecraft
-    }
-  }
-
-  // === SHOW RESULTS PAGE ===
-  function showResultsPage(query) {
-    document.getElementById('homeView').style.display = 'none';
-    document.getElementById('resultsView').style.display = 'flex';
-    document.getElementById('resultsSearchInput').value = query;
-    document.title = query + ' - MMJ Search';
-    renderResults(query);
-  }
-
-  // === GO HOME ===
-  function goHome() {
-    document.getElementById('resultsView').style.display = 'none';
-    document.getElementById('homeView').style.display = 'block';
-    document.title = 'MMJ Search';
-    homeSearchInput.value = '';
-    homeClearBtn.classList.remove('visible');
-    homeSuggestionsBox.classList.remove('visible');
-  }
-
-  // === RENDER RESULTS ===
-  function renderResults(query) {
-    const container = document.getElementById('resultsContainer');
-    const statsEl = document.getElementById('resultsStats');
-    const q = query.toLowerCase();
-
-    const matches = mmjDatabase.filter(item => 
-      item.title.toLowerCase().includes(q) || 
-      item.keywords.toLowerCase().includes(q) ||
-      item.desc.toLowerCase().includes(q)
-    );
-
-    const searchTime = (Math.random() * 0.4 + 0.15).toFixed(2);
-
-    if (matches.length > 0) {
-      statsEl.textContent = `About ${matches.length} result${matches.length > 1 ? 's' : ''} (${searchTime} seconds)`;
-      container.innerHTML = matches.map(item => `
-        <div class="result-item">
-          <div class="result-url">
-            <div class="result-url-icon" style="background:${item.iconBg}; color:#fff;">${item.icon}</div>
-            ${item.urlClean}
-          </div>
-          <a href="${item.url}" target="_blank" class="result-title">${highlightText(item.title, query)}</a>
-          <div class="result-desc">${highlightText(item.desc, query)}</div>
-        </div>
-      `).join('');
-    } else {
-      statsEl.textContent = `0 results (${searchTime} seconds)`;
-      container.innerHTML = `
-        <div class="no-results">
-          <div class="no-results-icon">🔍</div>
-          <h2>No results found for "${query}"</h2>
-          <p>Your search did not match any documents in the MMJ ecosystem.<br>Try different keywords or check your spelling.</p>
-        </div>
-      `;
-    }
-    window.scrollTo(0, 0);
-  }
-
-  // === HIGHLIGHT MATCHING TEXT ===
-  function highlightText(text, query) {
-    if (!query) return text;
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, '<strong>$1</strong>');
-  }
-
-  // === APPS DROPDOWN ===
-  function toggleAppsMenu() {
-    document.getElementById('appsDropdown').classList.toggle('visible');
-  }
-
-  // === CLOSE DROPDOWNS ON OUTSIDE CLICK ===
+  // CLOSE DROPDOWNS ON OUTSIDE CLICK
   document.addEventListener('click', (e) => {
-    const appsBtn = document.getElementById('appsBtn');
-    const appsDropdown = document.getElementById('appsDropdown');
     if (!appsDropdown.contains(e.target) && !appsBtn.contains(e.target)) {
       appsDropdown.classList.remove('visible');
     }
-    if (!document.getElementById('searchBar').contains(e.target) && !homeSuggestionsBox.contains(e.target)) {
-      homeSuggestionsBox.classList.remove('visible');
+    if (!document.getElementById('searchBar').contains(e.target) && !suggestionsBox.contains(e.target)) {
+      hideSuggestions();
     }
   });
 
-  // === KEYBOARD ===
+  // KEYBOARD: Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      homeSuggestionsBox.classList.remove('visible');
-      document.getElementById('appsDropdown').classList.remove('visible');
+      hideSuggestions();
+      appsDropdown.classList.remove('visible');
+      closeIndexModal();
     }
   });
 </script>
