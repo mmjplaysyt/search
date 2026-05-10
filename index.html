@@ -1,55 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <!-- Add these inside the <head> tag, right after the existing meta tags -->
-
-<!-- Primary Meta Tags -->
-<meta name="title" content="MMJ Search - Find MMJ Apps, Games & Indexed Pages">
-<meta name="description" content="Search the MMJ ecosystem instantly. Find AI Assistant, Minecraft, Academy, Social Media tools, and user-indexed pages — all in one place.">
-<meta name="keywords" content="MMJ search, MMJ apps, Minecraft browser, AI assistant, learn code, MMJ academy, social media, search engine, index page">
-<meta name="author" content="MMJ">
-<meta name="robots" content="index, follow">
-<meta name="language" content="English">
-<link rel="canonical" href="https://mmjplaysyt.github.io/search/">
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://mmjplaysyt.github.io/search/">
-<meta property="og:title" content="MMJ Search - Find MMJ Apps, Games & Indexed Pages">
-<meta property="og:description" content="Search the MMJ ecosystem instantly. Find AI Assistant, Minecraft, Academy, Social Media tools, and user-indexed pages.">
-<meta property="og:image" content="https://mmjplaysyt.github.io/search/og-image.png">
-<meta property="og:site_name" content="MMJ Search">
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://mmjplaysyt.github.io/search/">
-<meta property="twitter:title" content="MMJ Search - Find MMJ Apps, Games & Indexed Pages">
-<meta property="twitter:description" content="Search the MMJ ecosystem instantly. Find AI Assistant, Minecraft, Academy, Social Media tools, and user-indexed pages.">
-<meta property="twitter:image" content="https://mmjplaysyt.github.io/search/og-image.png">
-
-<!-- Structured Data (JSON-LD) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "MMJ Search",
-  "url": "https://mmjplaysyt.github.io/search/",
-  "description": "Search the MMJ ecosystem instantly. Find AI Assistant, Minecraft, Academy, Social Media tools, and user-indexed pages.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://mmjplaysyt.github.io/search/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "MMJ",
-    "url": "https://mmjplaysyt.work.gd/Minecraft"
-  }
-}
-</script>
-
-<!-- Sitemap reference for crawlers -->
-<link rel="sitemap" type="application/xml" href="https://mmjplaysyt.github.io/search/sitemap.xml">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MMJ Search</title>
@@ -132,7 +83,7 @@
 
   .clear-btn {
     width: 24px; height: 24px; cursor: pointer; color: #70757a; display: none;
-    align-items: center; justify-content: center; font-size: 20px; line-height: 1;
+    align-items: center; justify-content: center; font-size: 20px; line-height: 1; background: none; border: none;
   }
   .clear-btn.visible { display: flex; }
   .clear-btn:hover { color: #000; }
@@ -232,8 +183,17 @@
 
   .no-results { text-align: center; padding: 60px 20px; max-width: 600px; }
   .no-results h2 { font-size: 20px; margin-bottom: 12px; color: #202124; }
-  .no-results p { font-size: 14px; color: #70757a; line-height: 1.6; }
+  .no-results p { font-size: 14px; color: #70757a; line-height: 1.6; margin-bottom: 20px; }
   .no-results-icon { font-size: 48px; margin-bottom: 16px; }
+  
+  .auto-index-btn {
+    background-color: #4285F4; color: white; border: none; border-radius: 24px;
+    padding: 12px 24px; font-size: 15px; font-weight: bold; cursor: pointer;
+    transition: background 0.2s, transform 0.1s; box-shadow: 0 2px 8px rgba(66,133,244,0.3);
+  }
+  .auto-index-btn:hover { background-color: #3b78e7; }
+  .auto-index-btn:active { transform: scale(0.95); }
+  .auto-index-btn:disabled { background-color: #9aa0a6; cursor: not-allowed; box-shadow: none; }
 
   /* Footer */
   .footer { background: #f2f2f2; margin-top: auto; }
@@ -346,7 +306,7 @@
         <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
         <input type="text" id="homeSearchInput" autocomplete="off" placeholder="Search MMJ or type a URL" oninput="onHomeInputChange()" onfocus="showHomeSuggestions()" />
         <div class="search-bar-right">
-          <div class="clear-btn" id="homeClearBtn" onclick="clearHomeSearch()">✕</div>
+          <button type="button" class="clear-btn" id="homeClearBtn" onclick="clearHomeSearch()">✕</button>
           <svg class="mic-icon" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
         </div>
       </div>
@@ -532,7 +492,7 @@
     document.getElementById('homeSuggestionsBox').classList.remove('visible');
   }
 
-  // === SEARCH EXECUTION (WITH URL TELEPORT FIX) ===
+  // === SEARCH EXECUTION ===
   function performSearch(e, fromResultsPage = false) {
     if(e) e.preventDefault();
     
@@ -542,26 +502,24 @@
 
     if (!query) return;
 
-    // URL TELEPORT LOGIC
-    // Check if it looks like a URL (contains a dot, no spaces, or starts with http)
+    // URL Teleport Logic
     if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http://') || query.startsWith('https://')) {
       let targetUrl = query;
-      // Prepend https:// if missing so it doesn't go to mmjplaysyt.github.io/search/discord.gg
       if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
         targetUrl = 'https://' + targetUrl;
       }
       window.open(targetUrl, '_blank');
-      return; // Stop here, we teleported successfully!
+      return;
     }
 
-    // Switch to results view if not a URL
+    // Switch to results view
     document.getElementById('homeView').classList.add('hidden');
     document.getElementById('resultsView').classList.add('visible');
     document.getElementById('resultsSearchInput').value = query;
     document.getElementById('resClearBtn').classList.toggle('visible', query.length > 0);
     hideHomeSuggestions();
 
-    // Search logic inside MMJ database
+    // Search Logic
     const allData = getAllData();
     const lowerQ = query.toLowerCase();
     const matches = allData.filter(item => 
@@ -589,18 +547,85 @@
         `).join('')}
       `;
     } else {
+      // No results found - Offer Auto Indexing!
       resultsBody.innerHTML = `
         <div class="no-results">
           <div class="no-results-icon">🔍</div>
           <h2>No results found for "${query}"</h2>
-          <p>Your search did not match any pages in the MMJ Index.<br><br>
-          Tips:<br>- Make sure all words are spelled correctly.<br>- Try different keywords.<br>- Try more general keywords.<br>
-          <br>Want your page to show up here? <a href="#" onclick="openIndexModal(); return false;" style="color:#1a73e8;text-decoration:underline;">Index it now!</a></p>
+          <p>Your search did not match any pages in the MMJ Index.<br>You can automatically search the web and add results to your index.</p>
+          <button class="auto-index-btn" id="autoIndexBtn" onclick="autoIndexFromWeb('${query.replace(/'/g, "\\'")}')">
+            🌐 Auto-Index from Web
+          </button>
         </div>
       `;
     }
 
     window.scrollTo(0, 0);
+  }
+
+  // === AUTO-INDEX FROM WEB FUNCTION ===
+  async function autoIndexFromWeb(query) {
+    const btn = document.getElementById('autoIndexBtn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Indexing the web...';
+
+    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+
+    try {
+      const response = await fetch(proxyUrl + encodeURIComponent(searchUrl));
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Find all links on the Google Search page
+      const links = doc.querySelectorAll('a');
+      let indexedCount = 0;
+      const existingUrls = getAllData().map(item => item.url);
+
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const title = link.textContent.trim();
+        
+        // Google search results usually contain /url?q= for actual site links
+        if (href && href.includes('/url?q=')) {
+          const match = href.match(/\/url\?q=([^&]+)/);
+          if (match && match[1]) {
+            let url = decodeURIComponent(match[1]);
+            
+            // Clean up URL and make sure it's a valid web page
+            if (url.startsWith('http') && !url.includes('google.com') && title.length > 5) {
+              if (!existingUrls.includes(url)) {
+                saveIndexedPage({ 
+                  name: title, 
+                  url: url, 
+                  desc: `Auto-indexed from web: ${title}` 
+                });
+                existingUrls.push(url); // Prevent duplicates in same batch
+                indexedCount++;
+              }
+            }
+          }
+        }
+      });
+
+      if (indexedCount > 0) {
+        showToast(`Successfully auto-indexed ${indexedCount} new pages!`);
+        // Re-trigger search to show the newly indexed pages instantly
+        performSearch(null, true);
+      } else {
+        btn.innerHTML = '❌ No auto-indexable pages found';
+        showToast('Could not auto-index. Try manual indexing.');
+      }
+
+    } catch (error) {
+      console.error('Auto-index failed:', error);
+      btn.innerHTML = '❌ Blocked by web security';
+      showToast('Browser security blocked auto-indexing. Opening Google instead.');
+      setTimeout(() => window.open(searchUrl, '_blank'), 1500);
+    }
   }
 
   function goHome() {
@@ -616,7 +641,6 @@
     const query = document.getElementById('homeSearchInput').value.trim().toLowerCase();
     if (!query) return;
     
-    // Teleport if URL
     if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http://') || query.startsWith('https://')) {
       performSearch(e);
       return;
@@ -630,7 +654,6 @@
     }
   }
 
-  // Results bar clear
   function onResultInputChange() {
     document.getElementById('resClearBtn').classList.toggle('visible', document.getElementById('resultsSearchInput').value.length > 0);
   }
@@ -640,12 +663,11 @@
     document.getElementById('resultsSearchInput').focus();
   }
 
-  // === APPS DROPDOWN ===
   function toggleAppsMenu() {
     document.getElementById('appsDropdown').classList.toggle('visible');
   }
 
-  // === INDEX MODAL ===
+  // === MANUAL INDEX MODAL ===
   function openIndexModal() {
     document.getElementById('modalFormView').style.display = 'block';
     document.getElementById('modalSuccessView').style.display = 'none';
@@ -683,7 +705,6 @@
     setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // CLOSE MENUS ON OUTSIDE CLICK
   document.addEventListener('click', (e) => {
     const dd = document.getElementById('appsDropdown');
     if (!dd.contains(e.target) && !e.target.closest('.apps-btn')) dd.classList.remove('visible');
