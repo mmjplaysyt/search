@@ -3,161 +3,283 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ========================================== -->
-<!--             SEO META TAGS                  -->
-<!-- ========================================== -->
-<title>MMJ Search - Custom Search Engine & Web Indexer</title>
-<meta name="description" content="Search the web, instantly index your pages, and find MMJ apps with MMJ Search. A modern, custom search engine with real-time database indexing.">
-<meta name="keywords" content="MMJ Search, Custom Search Engine, Index Web Pages, MMJ Apps, Search the Web, Site Indexer">
-<meta name="author" content="MMJ Gaming">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://mmjplaysyt.github.io/search/" />
-
-<!-- Open Graph / Social Media SEO (Discord, Facebook, Twitter) -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://mmjplaysyt.github.io/search/">
-<meta property="og:title" content="MMJ Search - Custom Search Engine">
-<meta property="og:description" content="Search the web, instantly index your pages, and find MMJ apps.">
-<meta property="og:image" content="https://via.placeholder.com/1200x630/0078d4/ffffff?text=MMJ+Search+Engine"> <!-- Replace with your actual logo/image URL -->
-<meta property="og:site_name" content="MMJ Search">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MMJ Search - Custom Search Engine">
-<meta name="twitter:description" content="Search the web, instantly index your pages, and find MMJ apps.">
-<meta name="twitter:image" content="https://via.placeholder.com/1200x630/0078d4/ffffff?text=MMJ+Search+Engine">
-
-<!-- Schema.org Structured Data (Allows Google to add a search bar under your site in results) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "url": "https://mmjplaysyt.github.io/search/",
-  "name": "MMJ Search",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://mmjplaysyt.github.io/search/?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>MMJ Search</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: arial, sans-serif; background: #fff; min-height: 100vh; color: #202124; }
+  body {
+    font-family: arial, sans-serif;
+    background: #fff;
+    min-height: 100vh;
+    color: #202124;
+  }
 
   /* === HOME VIEW === */
-  .home-view { display: flex; flex-direction: column; min-height: 100vh; }
+  .home-view {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
   .home-view.hidden { display: none; }
-  .home-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 100px; }
-  .logo { font-size: 92px; font-weight: 400; margin-bottom: 24px; letter-spacing: -3px; user-select: none; cursor: default; line-height: 1; }
-  .logo-m1 { color: #4285F4; } .logo-m2 { color: #EA4335; } .logo-j { color: #FBBC05; }
-  .logo-s { color: #4285F4; } .logo-e { color: #34A853; } .logo-a { color: #EA4335; }
-  .logo-r { color: #FBBC05; } .logo-c { color: #4285F4; } .logo-h { color: #34A853; }
 
-  .search-container-home { width: 100%; max-width: 584px; padding: 0 16px; margin-bottom: 18px; position: relative; z-index: 50; }
-  .search-bar { display: flex; align-items: center; border: 1px solid #dfe1e5; border-radius: 24px; padding: 0 16px; height: 46px; transition: box-shadow 0.2s; background: #fff; }
-  .search-bar:hover, .search-bar:focus-within { box-shadow: 0 1px 6px rgba(32,33,36,0.28); border-color: rgba(223,225,229,0); }
+  .home-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 100px;
+  }
+
+  .logo {
+    font-size: 92px;
+    font-weight: 400;
+    margin-bottom: 24px;
+    letter-spacing: -3px;
+    user-select: none;
+    cursor: default;
+    line-height: 1;
+  }
+  .logo-m1 { color: #4285F4; }
+  .logo-m2 { color: #EA4335; }
+  .logo-j { color: #FBBC05; }
+  .logo-s { color: #4285F4; }
+  .logo-e { color: #34A853; }
+  .logo-a { color: #EA4335; }
+  .logo-r { color: #FBBC05; }
+  .logo-c { color: #4285F4; }
+  .logo-h { color: #34A853; }
+
+  .search-container-home {
+    width: 100%;
+    max-width: 584px;
+    padding: 0 16px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 50;
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    padding: 0 16px;
+    height: 46px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    background: #fff;
+  }
+  .search-bar:hover, .search-bar:focus-within {
+    box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+    border-color: rgba(223,225,229,0);
+  }
+
   .search-icon { width: 20px; height: 20px; fill: #9aa0a6; margin-right: 14px; flex-shrink: 0; }
-  .search-bar input { flex: 1; border: none; outline: none; font-size: 16px; color: rgba(0,0,0,0.87); height: 100%; }
+
+  .search-bar input {
+    flex: 1; border: none; outline: none; font-size: 16px; color: rgba(0,0,0,0.87); height: 100%;
+  }
   .search-bar input::placeholder { color: #9aa0a6; }
   .search-bar-right { display: flex; align-items: center; gap: 8px; margin-left: 12px; }
-  .clear-btn { width: 24px; height: 24px; cursor: pointer; color: #70757a; display: none; align-items: center; justify-content: center; font-size: 20px; background: none; border: none; }
-  .clear-btn.visible { display: flex; } .clear-btn:hover { color: #000; }
+
+  .clear-btn {
+    width: 24px; height: 24px; cursor: pointer; color: #70757a; display: none;
+    align-items: center; justify-content: center; font-size: 20px; line-height: 1; background: none; border: none;
+  }
+  .clear-btn.visible { display: flex; }
+  .clear-btn:hover { color: #000; }
   .mic-icon { width: 24px; height: 24px; cursor: pointer; fill: #4285F4; }
 
   .search-buttons { display: flex; justify-content: center; gap: 12px; }
-  .search-btn { background-color: #f8f9fa; border: 1px solid #f8f9fa; border-radius: 4px; color: #3c4043; font-family: arial, sans-serif; font-size: 14px; padding: 0 16px; line-height: 27px; height: 36px; min-width: 54px; cursor: pointer; transition: all 0.2s; }
+
+  .search-btn {
+    background-color: #f8f9fa; border: 1px solid #f8f9fa; border-radius: 4px; color: #3c4043;
+    font-family: arial, sans-serif; font-size: 14px; padding: 0 16px; line-height: 27px;
+    height: 36px; min-width: 54px; cursor: pointer; transition: all 0.2s;
+  }
   .search-btn:hover { border-color: #dadce0; box-shadow: 0 1px 1px rgba(0,0,0,0.1); color: #202124; }
 
-  .home-header { display: flex; justify-content: flex-end; align-items: center; padding: 10px 16px; gap: 4px; font-size: 13px; }
-  .nav-btn { color: rgba(0,0,0,0.87); text-decoration: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; background: none; border: none; font-family: inherit; font-size: 13px; }
+  /* Header Nav */
+  .home-header {
+    display: flex; justify-content: flex-end; align-items: center; padding: 10px 16px; gap: 4px; font-size: 13px;
+  }
+  .nav-btn {
+    color: rgba(0,0,0,0.87); text-decoration: none; padding: 8px 12px; border-radius: 4px;
+    cursor: pointer; background: none; border: none; font-family: inherit; font-size: 13px;
+  }
   .nav-btn:hover { background: rgba(0,0,0,0.05); text-decoration: underline; }
 
-  .apps-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; background: none; border: none; }
+  .apps-btn {
+    width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; cursor: pointer;
+  }
   .apps-btn:hover { background: rgba(0,0,0,0.05); }
   .apps-grid-icon { width: 24px; height: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
   .apps-grid-icon span { width: 6px; height: 6px; border-radius: 50%; background: #5f6368; }
 
-  .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0078d4, #00b4d8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; cursor: pointer; margin-left: 4px; text-decoration: none; }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0078d4, #00b4d8);
+    color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700;
+    font-size: 14px; cursor: pointer; margin-left: 4px; text-decoration: none;
+  }
 
+  /* Suggestions */
   .suggestions-container { width: 100%; position: absolute; top: 46px; left: 0; padding: 0 16px; z-index: 100; }
-  .suggestions-box { background: #fff; border-radius: 0 0 24px 24px; box-shadow: 0 4px 6px rgba(32,33,36,0.28); border-top: 1px solid #e8eaed; display: none; overflow: hidden; }
+  .suggestions-box {
+    background: #fff; border-radius: 0 0 24px 24px; box-shadow: 0 4px 6px rgba(32,33,36,0.28);
+    border-top: 1px solid #e8eaed; display: none; overflow: hidden;
+  }
   .suggestions-box.visible { display: block; }
-  .suggestion-item { padding: 8px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; font-size: 14px; color: #333; transition: background 0.1s; }
+  .suggestion-item {
+    padding: 8px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer;
+    font-size: 14px; color: #333; transition: background 0.1s;
+  }
   .suggestion-item:hover { background: #eee; }
   .suggestion-item svg { width: 16px; height: 16px; fill: #9aa0a6; flex-shrink: 0; }
-  .suggestion-item .indexed-tag { margin-left: auto; font-size: 10px; background: #e8f5e9; color: #2e7d32; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+  .suggestion-item .indexed-tag {
+    margin-left: auto; font-size: 10px; background: #e8f5e9; color: #2e7d32;
+    padding: 2px 6px; border-radius: 4px; font-weight: bold;
+  }
 
   /* === RESULTS VIEW === */
-  .results-view { display: none; } .results-view.visible { display: block; min-height: 100vh; }
-  .results-header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #dadce0; z-index: 50; padding: 12px 24px; }
+  .results-view { display: none; }
+  .results-view.visible { display: block; min-height: 100vh; }
+
+  .results-header {
+    position: sticky; top: 0; background: #fff; border-bottom: 1px solid #dadce0; z-index: 50; padding: 12px 24px;
+  }
   .results-top-bar { display: flex; align-items: center; gap: 24px; }
+
   .results-logo { font-size: 28px; font-weight: 400; letter-spacing: -1px; text-decoration: none; cursor: pointer; }
   .results-logo:hover { opacity: 0.8; }
-  .results-search-bar { flex: 1; max-width: 692px; display: flex; align-items: center; border: 1px solid #dfe1e5; border-radius: 24px; padding: 0 16px; height: 44px; background: #fff; transition: box-shadow 0.2s; }
+
+  .results-search-bar {
+    flex: 1; max-width: 692px; display: flex; align-items: center; border: 1px solid #dfe1e5;
+    border-radius: 24px; padding: 0 16px; height: 44px; background: #fff; transition: box-shadow 0.2s;
+  }
   .results-search-bar:focus-within { box-shadow: 0 1px 6px rgba(32,33,36,0.28); border-color: transparent; }
   .results-search-bar input { flex: 1; border: none; outline: none; font-size: 16px; color: #202124; height: 100%; }
+
   .res-clear-btn { cursor: pointer; color: #70757a; font-size: 20px; margin-right: 10px; display: none; background:none; border:none; }
   .res-clear-btn.visible { display: block; }
-  .res-search-btn { background: #4285F4; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+
+  .res-search-btn {
+    background: #4285F4; border: none; border-radius: 50%; width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+  }
   .res-search-btn svg { width: 18px; height: 18px; fill: #fff; }
 
   .results-body { padding: 24px 0 24px 140px; max-width: 900px; }
   .results-stats { font-size: 13px; color: #70757a; margin-bottom: 20px; }
+
+  /* Result Items */
   .result-item { margin-bottom: 28px; max-width: 600px; }
   .result-url { font-size: 12px; color: #202124; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-  .result-url a { color: #202124; text-decoration: none; } .result-url a:hover { text-decoration: underline; }
+  .result-url a { color: #202124; text-decoration: none; }
+  .result-url a:hover { text-decoration: underline; }
   .result-title { font-size: 20px; color: #1a0dab; margin-bottom: 4px; cursor: pointer; text-decoration: none; display: block; line-height: 1.3; }
   .result-title:hover { text-decoration: underline; }
   .result-desc { font-size: 14px; color: #4d5156; line-height: 1.5; }
   .indexed-badge-result { background: #e8f5e9; color: #2e7d32; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 8px; }
-  .auto-badge-result { background: #e3f2fd; color: #1565c0; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 8px; }
 
   .no-results { text-align: center; padding: 60px 20px; max-width: 600px; }
   .no-results h2 { font-size: 20px; margin-bottom: 12px; color: #202124; }
-  .no-results p { font-size: 14px; color: #70757a; line-height: 1.6; }
+  .no-results p { font-size: 14px; color: #70757a; line-height: 1.6; margin-bottom: 20px; }
   .no-results-icon { font-size: 48px; margin-bottom: 16px; }
+  
+  .auto-index-btn {
+    background-color: #4285F4; color: white; border: none; border-radius: 24px;
+    padding: 12px 24px; font-size: 15px; font-weight: bold; cursor: pointer;
+    transition: background 0.2s, transform 0.1s; box-shadow: 0 2px 8px rgba(66,133,244,0.3);
+  }
+  .auto-index-btn:hover { background-color: #3b78e7; }
+  .auto-index-btn:active { transform: scale(0.95); }
+  .auto-index-btn:disabled { background-color: #9aa0a6; cursor: not-allowed; box-shadow: none; }
 
+  /* Footer */
   .footer { background: #f2f2f2; margin-top: auto; }
   .footer-top { padding: 15px 30px; border-bottom: 1px solid #dadce0; font-size: 15px; color: rgba(0,0,0,0.54); }
   .footer-bottom { padding: 12px 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   .footer-bottom a { color: #70757a; text-decoration: none; font-size: 14px; padding: 0 8px; cursor: pointer; }
   .footer-bottom a:hover { text-decoration: underline; }
 
-  .apps-dropdown { position: absolute; top: 50px; right: 16px; width: 280px; background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); padding: 16px; display: none; z-index: 500; }
+  /* Apps Dropdown */
+  .apps-dropdown {
+    position: absolute; top: 50px; right: 16px; width: 280px; background: #fff; border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15); padding: 16px; display: none; z-index: 500;
+  }
   .apps-dropdown.visible { display: block; }
   .apps-dropdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-  .app-shortcut { display: flex; flex-direction: column; align-items: center; padding: 12px 4px; border-radius: 8px; text-decoration: none; color: #3c4043; transition: background 0.15s; gap: 6px; }
+  .app-shortcut {
+    display: flex; flex-direction: column; align-items: center; padding: 12px 4px; border-radius: 8px;
+    text-decoration: none; color: #3c4043; transition: background 0.15s; gap: 6px;
+  }
   .app-shortcut:hover { background: #f1f3f4; }
   .app-shortcut-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
   .app-shortcut-label { font-size: 11px; text-align: center; line-height: 1.2; }
 
-  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; display: none; align-items: center; justify-content: center; }
+  /* Index Modal */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4);
+    z-index: 1000; display: none; align-items: center; justify-content: center;
+  }
   .modal-overlay.visible { display: flex; }
-  .modal-box { background: #fff; border-radius: 8px; width: 480px; max-width: 90vw; box-shadow: 0 4px 16px rgba(0,0,0,0.2); overflow: hidden; }
-  .modal-header { padding: 16px 24px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+  .modal-box {
+    background: #fff; border-radius: 8px; width: 480px; max-width: 90vw;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2); overflow: hidden;
+  }
+  .modal-header {
+    padding: 16px 24px; border-bottom: 1px solid #e0e0e0; display: flex;
+    justify-content: space-between; align-items: center;
+  }
   .modal-header h2 { font-size: 18px; font-weight: 400; color: #202124; }
-  .modal-close { width: 32px; height: 32px; border-radius: 50%; border: none; background: none; font-size: 20px; cursor: pointer; color: #5f6368; display: flex; align-items: center; justify-content: center; }
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 50%; border: none; background: none;
+    font-size: 20px; cursor: pointer; color: #5f6368; display: flex; align-items: center;
+    justify-content: center; transition: background 0.2s;
+  }
   .modal-close:hover { background: #f1f3f4; }
-  .modal-body { padding: 24px; } .modal-body p { font-size: 13px; color: #5f6368; margin-bottom: 20px; }
-  .form-group { margin-bottom: 16px; } .form-group label { display: block; font-size: 12px; color: #5f6368; margin-bottom: 6px; font-weight: 500; }
-  .form-group input { width: 100%; height: 40px; border: 1px solid #dadce0; border-radius: 4px; padding: 0 12px; font-size: 14px; outline: none; font-family: arial, sans-serif; }
+  .modal-body { padding: 24px; }
+  .modal-body p { font-size: 13px; color: #5f6368; margin-bottom: 20px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; color: #5f6368; margin-bottom: 6px; font-weight: 500; }
+  .form-group input {
+    width: 100%; height: 40px; border: 1px solid #dadce0; border-radius: 4px; padding: 0 12px;
+    font-size: 14px; outline: none; font-family: arial, sans-serif;
+  }
   .form-group input:focus { border-color: #4285F4; box-shadow: 0 0 0 1px #4285F4; }
   .modal-footer { padding: 12px 24px 20px; display: flex; justify-content: flex-end; gap: 8px; }
-  .modal-btn { height: 36px; padding: 0 24px; border-radius: 4px; font-size: 14px; font-family: arial, sans-serif; cursor: pointer; border: 1px solid #dadce0; }
-  .modal-btn-cancel { background: #fff; color: #1a73e8; } .modal-btn-cancel:hover { background: #f8f9fa; }
-  .modal-btn-submit { background: #1a73e8; color: #fff; border-color: #1a73e8; } .modal-btn-submit:hover { background: #1557b0; }
-  .submit-success { display: none; text-align: center; padding: 10px 0; } .submit-success.visible { display: block; }
-  .submit-success .checkmark { width: 60px; height: 60px; border-radius: 50%; background: #e8f5e9; color: #34A853; font-size: 32px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+  .modal-btn {
+    height: 36px; padding: 0 24px; border-radius: 4px; font-size: 14px; font-family: arial, sans-serif;
+    cursor: pointer; border: 1px solid #dadce0;
+  }
+  .modal-btn-cancel { background: #fff; color: #1a73e8; }
+  .modal-btn-cancel:hover { background: #f8f9fa; }
+  .modal-btn-submit { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+  .modal-btn-submit:hover { background: #1557b0; }
+  
+  .submit-success { display: none; text-align: center; padding: 10px 0; }
+  .submit-success.visible { display: block; }
+  .submit-success .checkmark {
+    width: 60px; height: 60px; border-radius: 50%; background: #e8f5e9; color: #34A853;
+    font-size: 32px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+  }
   .submit-success h3 { color: #202124; font-size: 18px; font-weight: 400; margin-bottom: 6px; }
   .submit-success p { color: #5f6368; font-size: 13px; margin-bottom: 16px; }
 
-  .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #323232; color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 2000; transition: bottom 0.3s ease; }
+  /* Toast */
+  .toast {
+    position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #323232;
+    color: #fff; padding: 12px 24px; border-radius: 8px; font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 2000; transition: bottom 0.3s ease;
+  }
   .toast.show { bottom: 40px; }
 
-  @media (max-width: 768px) { .logo { font-size: 56px; letter-spacing: -2px; } .results-body { padding: 24px 16px; } .results-top-bar { gap: 12px; } }
+  @media (max-width: 768px) {
+    .logo { font-size: 56px; letter-spacing: -2px; }
+    .results-body { padding: 24px 16px; }
+    .results-top-bar { gap: 12px; }
+    .apps-dropdown { right: 8px; left: 8px; width: auto; }
+  }
 </style>
 </head>
 <body>
@@ -202,8 +324,12 @@
   <div class="footer">
     <div class="footer-top">MMJland</div>
     <div class="footer-bottom">
-      <div style="display:flex;gap:0;"><a href="#">About</a><a href="#">Advertising</a><a href="#">Business</a></div>
-      <div style="display:flex;gap:0;"><a href="#" onclick="openIndexModal(); return false;">Submit URL</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+      <div style="display:flex;gap:0;">
+        <a href="#">About</a><a href="#">Advertising</a><a href="#">Business</a>
+      </div>
+      <div style="display:flex;gap:0;">
+        <a href="#" onclick="openIndexModal(); return false;">Submit URL</a><a href="#">Privacy</a><a href="#">Terms</a>
+      </div>
     </div>
   </div>
 </div>
@@ -228,33 +354,66 @@
       </div>
     </div>
   </div>
-  <div class="results-body" id="resultsBody"><div style="text-align:center; padding:40px;">Loading results...</div></div>
+
+  <div class="results-body" id="resultsBody">
+    <!-- Results injected here via JS -->
+  </div>
 </div>
 
 <!-- APPS DROPDOWN -->
 <div class="apps-dropdown" id="appsDropdown">
   <div class="apps-dropdown-grid">
-    <a href="https://mmjplaysyt.github.io/AI-Asistent/" target="_blank" class="app-shortcut"><div class="app-shortcut-icon" style="background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;">🤖</div><div class="app-shortcut-label">AI Assistant</div></a>
-    <a href="https://mmjplaysyt.github.io/social-media/" target="_blank" class="app-shortcut"><div class="app-shortcut-icon" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;">💬</div><div class="app-shortcut-label">Social Media</div></a>
-    <a href="https://mmjplaysyt.work.gd/Minecraft" target="_blank" class="app-shortcut"><div class="app-shortcut-icon" style="background:linear-gradient(135deg,#0078d4,#00b4d8);color:#fff;">🌐</div><div class="app-shortcut-label">Webpage</div></a>
-    <a href="https://mmjgaming.github.io/Minecraft-/" target="_blank" class="app-shortcut"><div class="app-shortcut-icon" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;">⛏️</div><div class="app-shortcut-label">Minecraft</div></a>
-    <a href="https://mmjgaming.github.io/academy/" target="_blank" class="app-shortcut"><div class="app-shortcut-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;">🎓</div><div class="app-shortcut-label">Academy</div></a>
-    <a href="https://mmjplaysyt.github.io/code-org/" target="_blank" class="app-shortcut"><div class="app-shortcut-icon" style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;">💻</div><div class="app-shortcut-label">Learn Code</div></a>
+    <a href="https://mmjplaysyt.github.io/AI-Asistent/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;">🤖</div>
+      <div class="app-shortcut-label">AI Assistant</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/social-media/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;">💬</div>
+      <div class="app-shortcut-label">Social Media</div>
+    </a>
+    <a href="https://mmjplaysyt.work.gd/Minecraft" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#0078d4,#00b4d8);color:#fff;">🌐</div>
+      <div class="app-shortcut-label">Webpage</div>
+    </a>
+    <a href="https://mmjgaming.github.io/Minecraft-/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;">⛏️</div>
+      <div class="app-shortcut-label">Minecraft</div>
+    </a>
+    <a href="https://mmjgaming.github.io/academy/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;">🎓</div>
+      <div class="app-shortcut-label">Academy</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/code-org/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;">💻</div>
+      <div class="app-shortcut-label">Learn Code</div>
+    </a>
   </div>
 </div>
 
 <!-- INDEX MODAL -->
 <div class="modal-overlay" id="indexModal">
   <div class="modal-box">
-    <div class="modal-header"><h2>Index a Page</h2><button class="modal-close" onclick="closeIndexModal()">✕</button></div>
+    <div class="modal-header">
+      <h2>Index a Page</h2>
+      <button class="modal-close" onclick="closeIndexModal()">✕</button>
+    </div>
     <div class="modal-body" id="modalFormView">
-      <p>Add your webpage to the MMJ Search Database. Once submitted, it will be searchable by everyone!</p>
-      <div class="form-group"><label>Page URL *</label><input type="url" id="indexUrl" placeholder="https://discord.gg/MGk3t32Xrm"></div>
-      <div class="form-group"><label>Page Title *</label><input type="text" id="indexTitle" placeholder="Discord Server"></div>
-      <div class="form-group"><label>Description (Optional)</label><input type="text" id="indexDesc" placeholder="Join our Discord community!"></div>
+      <p>Add your webpage to the MMJ Search index. Once submitted, it will be immediately searchable from the MMJ Search bar!</p>
+      <div class="form-group">
+        <label>Page URL *</label>
+        <input type="url" id="indexUrl" placeholder="https://discord.gg/MGk3t32Xrm">
+      </div>
+      <div class="form-group">
+        <label>Page Title *</label>
+        <input type="text" id="indexTitle" placeholder="Discord Server">
+      </div>
     </div>
     <div class="modal-body" id="modalSuccessView" style="display:none;">
-      <div class="submit-success visible"><div class="checkmark">✓</div><h3>URL Submitted to Database!</h3><p>Your page is now indexed. Reloading to update search...</p></div>
+      <div class="submit-success visible">
+        <div class="checkmark">✓</div>
+        <h3>URL Submitted for Indexing</h3>
+        <p>Your page is now indexed and instantly searchable on this browser!</p>
+      </div>
     </div>
     <div class="modal-footer" id="modalFooter">
       <button class="modal-btn modal-btn-cancel" onclick="closeIndexModal()">Cancel</button>
@@ -263,142 +422,299 @@
   </div>
 </div>
 
+<!-- TOAST -->
 <div class="toast" id="toast">Page indexed successfully!</div>
 
 <script>
-  const SUPABASE_URL = 'https://dyhcscqrdbhdakojrbzc.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5aGNzY3FyZGJoZGFrb2pyYnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NjM2MTgsImV4cCI6MjA5NDAzOTYxOH0.NxFX-q8l8KjWNVrl0wfS73Kkd5rhMpI9dKUvb9t0JxY';
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+  // === DATA ===
   const defaultApps = [
-    { name: 'AI Assistant', url: 'https://mmjplaysyt.github.io/AI-Asistent/', icon: '🤖', desc: 'Your smart AI chat companion powered by MMJ.' },
-    { name: 'Social Media', url: 'https://mmjplaysyt.github.io/social-media/', icon: '💬', desc: 'Connect and interact with the MMJ community.' },
-    { name: 'MMJ Webpage', url: 'https://mmjplaysyt.work.gd/Minecraft', icon: '🌐', desc: 'The official MMJ homepage.' },
-    { name: 'Minecraft', url: 'https://mmjgaming.github.io/Minecraft-/', icon: '⛏️', desc: 'Play the MMJ Minecraft experience.' },
-    { name: 'Academy', url: 'https://mmjgaming.github.io/academy/', icon: '🎓', desc: 'Learn new skills with MMJ Academy.' },
-    { name: 'Learn Code', url: 'https://mmjplaysyt.github.io/code-org/', icon: '💻', desc: 'Interactive programming tutorials.' }
+    { name: 'AI Assistant', url: 'https://mmjplaysyt.github.io/AI-Asistent/', icon: '🤖', type: 'app', desc: 'Your smart AI chat companion powered by MMJ. Ask anything and get intelligent answers instantly.' },
+    { name: 'Social Media', url: 'https://mmjplaysyt.github.io/social-media/', icon: '💬', type: 'app', desc: 'Connect, share, and interact with the MMJ community on our custom social media platform.' },
+    { name: 'MMJ Webpage', url: 'https://mmjplaysyt.work.gd/Minecraft', icon: '🌐', type: 'app', desc: 'The official MMJ homepage and central hub for all projects and updates.' },
+    { name: 'Minecraft', url: 'https://mmjgaming.github.io/Minecraft-/', icon: '⛏️', type: 'app', desc: 'Play and explore the MMJ Minecraft experience directly in your browser.' },
+    { name: 'Academy', url: 'https://mmjgaming.github.io/academy/', icon: '🎓', type: 'app', desc: 'Learn new skills and grow your knowledge with the MMJ Academy educational platform.' },
+    { name: 'Learn Code', url: 'https://mmjplaysyt.github.io/code-org/', icon: '💻', type: 'app', desc: 'Start your coding journey with interactive programming tutorials and challenges.' }
   ];
 
+  // Local Storage Indexing
+  function getIndexedPages() {
+    const pages = localStorage.getItem('mmj_indexed_pages');
+    return pages ? JSON.parse(pages) : [];
+  }
+
+  function saveIndexedPage(page) {
+    const pages = getIndexedPages();
+    pages.push(page);
+    localStorage.setItem('mmj_indexed_pages', JSON.stringify(pages));
+  }
+
+  function getAllData() {
+    const indexed = getIndexedPages().map(p => ({ ...p, type: 'indexed', icon: '📄' }));
+    return [...defaultApps, ...indexed];
+  }
+
+  // === HOME VIEW LOGIC ===
   function onHomeInputChange() {
     const input = document.getElementById('homeSearchInput');
     document.getElementById('homeClearBtn').classList.toggle('visible', input.value.length > 0);
     if (input.value.length > 0) showHomeSuggestions(); else hideHomeSuggestions();
   }
 
-  function clearHomeSearch() { document.getElementById('homeSearchInput').value = ''; document.getElementById('homeClearBtn').classList.remove('visible'); hideHomeSuggestions(); document.getElementById('homeSearchInput').focus(); }
+  function clearHomeSearch() {
+    document.getElementById('homeSearchInput').value = '';
+    document.getElementById('homeClearBtn').classList.remove('visible');
+    hideHomeSuggestions();
+    document.getElementById('homeSearchInput').focus();
+  }
 
-  async function showHomeSuggestions() {
+  function showHomeSuggestions() {
     const query = document.getElementById('homeSearchInput').value.toLowerCase().trim();
     const box = document.getElementById('homeSuggestionsBox');
     if (!query) { hideHomeSuggestions(); return; }
-    const { data: dbPages } = await supabase.from('indexed_pages').select('*').or(`name.ilike.%${query}%,url.ilike.%${query}%`).limit(5);
-    const defaultMatches = defaultApps.filter(i => i.name.toLowerCase().includes(query) || i.url.toLowerCase().includes(query));
-    const allMatches = [...defaultMatches, ...(dbPages || [])];
-    if (allMatches.length > 0) {
-      box.innerHTML = allMatches.map(item => `<div class="suggestion-item" onclick="window.open('${item.url}', '_blank')"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><span>${item.icon || '📄'} ${item.name}</span>${item.is_auto ? '<span class="indexed-tag" style="background:#e3f2fd;color:#1565c0;">AUTO</span>' : (!item.icon ? '<span class="indexed-tag">INDEXED</span>' : '')}</div>`).join('');
+
+    const matches = getAllData().filter(i => i.name.toLowerCase().includes(query) || i.url.toLowerCase().includes(query));
+    
+    if (matches.length > 0) {
+      box.innerHTML = matches.map(item => `
+        <div class="suggestion-item" onclick="window.open('${item.url}', '_blank')">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <span>${item.icon} ${item.name}</span>
+          ${item.type === 'indexed' ? '<span class="indexed-tag">INDEXED</span>' : ''}
+        </div>
+      `).join('');
       box.classList.add('visible');
-    } else { hideHomeSuggestions(); }
+    } else {
+      hideHomeSuggestions();
+    }
   }
 
-  function hideHomeSuggestions() { document.getElementById('homeSuggestionsBox').classList.remove('visible'); }
+  function hideHomeSuggestions() {
+    document.getElementById('homeSuggestionsBox').classList.remove('visible');
+  }
 
-  async function performSearch(e, fromResultsPage = false) {
+  // === SEARCH EXECUTION ===
+  function performSearch(e, fromResultsPage = false) {
     if(e) e.preventDefault();
-    let query = fromResultsPage ? document.getElementById('resultsSearchInput').value.trim() : document.getElementById('homeSearchInput').value.trim();
+    
+    let query = fromResultsPage 
+      ? document.getElementById('resultsSearchInput').value.trim() 
+      : document.getElementById('homeSearchInput').value.trim();
+
     if (!query) return;
 
+    // URL Teleport Logic
     if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http://') || query.startsWith('https://')) {
-      let targetUrl = query; if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) targetUrl = 'https://' + targetUrl; window.open(targetUrl, '_blank'); return;
+      let targetUrl = query;
+      if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+        targetUrl = 'https://' + targetUrl;
+      }
+      window.open(targetUrl, '_blank');
+      return;
     }
 
+    // Switch to results view
     document.getElementById('homeView').classList.add('hidden');
     document.getElementById('resultsView').classList.add('visible');
     document.getElementById('resultsSearchInput').value = query;
     document.getElementById('resClearBtn').classList.toggle('visible', query.length > 0);
     hideHomeSuggestions();
 
+    // Search Logic
+    const allData = getAllData();
     const lowerQ = query.toLowerCase();
+    const matches = allData.filter(item => 
+      item.name.toLowerCase().includes(lowerQ) || 
+      (item.desc && item.desc.toLowerCase().includes(lowerQ)) || 
+      item.url.toLowerCase().includes(lowerQ)
+    );
+
     const resultsBody = document.getElementById('resultsBody');
-    resultsBody.innerHTML = `<div style="text-align:center; padding:40px; color:#70757a;">Searching MMJ Database...</div>`;
-
-    const { data: dbPages } = await supabase.from('indexed_pages').select('*').or(`name.ilike.%${lowerQ}%,url.ilike.%${lowerQ}%,desc.ilike.%${lowerQ}%`);
-    const defaultMatches = defaultApps.filter(i => i.name.toLowerCase().includes(lowerQ) || i.desc.toLowerCase().includes(lowerQ));
-    let dbMatches = dbPages || [];
-
-    if (defaultMatches.length === 0 && dbMatches.length === 0) {
-      const googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-      await supabase.from('indexed_pages').insert([{ name: query, url: googleUrl, desc: `Auto-indexed search term. Click to search the broader web for: ${query}`, is_auto: true }]);
-      dbMatches.push({ name: query, url: googleUrl, desc: `Auto-indexed search term. Click to search the broader web for: ${query}`, is_auto: true });
-    }
-
-    const allMatches = [...defaultMatches, ...dbMatches];
     const timeMs = (Math.random() * 0.4 + 0.1).toFixed(2);
 
-    if (allMatches.length > 0) {
-      resultsBody.innerHTML = `<div class="results-stats">About ${allMatches.length} results (${timeMs} seconds)</div>${allMatches.map(item => `<div class="result-item"><div class="result-url"><span style="font-size:16px;">${item.icon || '📄'}</span><a href="${item.url}" target="_blank">${item.url}</a>${item.is_auto ? '<span class="auto-badge-result">AUTO-INDEXED</span>' : (!item.icon ? '<span class="indexed-badge-result">INDEXED</span>' : '')}</div><a class="result-title" href="${item.url}" target="_blank">${item.name}</a><div class="result-desc">${item.desc || 'No description available.'}</div></div>`).join('')}`;
+    if (matches.length > 0) {
+      resultsBody.innerHTML = `
+        <div class="results-stats">About ${matches.length} results (${timeMs} seconds)</div>
+        ${matches.map(item => `
+          <div class="result-item">
+            <div class="result-url">
+              <span style="font-size:16px;">${item.icon}</span>
+              <a href="${item.url}" target="_blank">${item.url}</a>
+              ${item.type === 'indexed' ? '<span class="indexed-badge-result">INDEXED</span>' : ''}
+            </div>
+            <a class="result-title" href="${item.url}" target="_blank">${item.name}</a>
+            <div class="result-desc">${item.desc || 'No description available for this indexed page.'}</div>
+          </div>
+        `).join('')}
+      `;
     } else {
-      resultsBody.innerHTML = `<div class="no-results"><div class="no-results-icon">🔍</div><h2>No results found for "${query}"</h2><p>Your search did not match any pages.</p></div>`;
+      // No results found - Offer Auto Indexing!
+      resultsBody.innerHTML = `
+        <div class="no-results">
+          <div class="no-results-icon">🔍</div>
+          <h2>No results found for "${query}"</h2>
+          <p>Your search did not match any pages in the MMJ Index.<br>You can automatically search the web and add results to your index.</p>
+          <button class="auto-index-btn" id="autoIndexBtn" onclick="autoIndexFromWeb('${query.replace(/'/g, "\\'")}')">
+            🌐 Auto-Index from Web
+          </button>
+        </div>
+      `;
     }
-    
-    // SEO: Update URL so it can be shared without reloading
-    window.history.pushState({}, '', `?q=${encodeURIComponent(query)}`);
+
     window.scrollTo(0, 0);
   }
 
-  function goHome() { 
-    document.getElementById('homeView').classList.remove('hidden'); 
-    document.getElementById('resultsView').classList.remove('visible'); 
-    document.getElementById('homeSearchInput').value = ''; 
-    document.getElementById('homeClearBtn').classList.remove('visible'); 
-    document.getElementById('homeSearchInput').focus(); 
+  // === AUTO-INDEX FROM WEB FUNCTION ===
+  async function autoIndexFromWeb(query) {
+    const btn = document.getElementById('autoIndexBtn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Indexing the web...';
+
+    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+
+    try {
+      const response = await fetch(proxyUrl + encodeURIComponent(searchUrl));
+      if (!response.ok) throw new Error('Network response was not ok');
+      
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // Find all links on the Google Search page
+      const links = doc.querySelectorAll('a');
+      let indexedCount = 0;
+      const existingUrls = getAllData().map(item => item.url);
+
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const title = link.textContent.trim();
+        
+        // Google search results usually contain /url?q= for actual site links
+        if (href && href.includes('/url?q=')) {
+          const match = href.match(/\/url\?q=([^&]+)/);
+          if (match && match[1]) {
+            let url = decodeURIComponent(match[1]);
+            
+            // Clean up URL and make sure it's a valid web page
+            if (url.startsWith('http') && !url.includes('google.com') && title.length > 5) {
+              if (!existingUrls.includes(url)) {
+                saveIndexedPage({ 
+                  name: title, 
+                  url: url, 
+                  desc: `Auto-indexed from web: ${title}` 
+                });
+                existingUrls.push(url); // Prevent duplicates in same batch
+                indexedCount++;
+              }
+            }
+          }
+        }
+      });
+
+      if (indexedCount > 0) {
+        showToast(`Successfully auto-indexed ${indexedCount} new pages!`);
+        // Re-trigger search to show the newly indexed pages instantly
+        performSearch(null, true);
+      } else {
+        btn.innerHTML = '❌ No auto-indexable pages found';
+        showToast('Could not auto-index. Try manual indexing.');
+      }
+
+    } catch (error) {
+      console.error('Auto-index failed:', error);
+      btn.innerHTML = '❌ Blocked by web security';
+      showToast('Browser security blocked auto-indexing. Opening Google instead.');
+      setTimeout(() => window.open(searchUrl, '_blank'), 1500);
+    }
+  }
+
+  function goHome() {
+    document.getElementById('homeView').classList.remove('hidden');
+    document.getElementById('resultsView').classList.remove('visible');
+    document.getElementById('homeSearchInput').value = '';
+    document.getElementById('homeClearBtn').classList.remove('visible');
+    document.getElementById('homeSearchInput').focus();
+  }
+
+  function feelingLucky(e) {
+    if(e) e.preventDefault();
+    const query = document.getElementById('homeSearchInput').value.trim().toLowerCase();
+    if (!query) return;
     
-    // FIX: Uses the full clean GitHub Pages URL so it doesn't leave a "?" at the end
-    const cleanUrl = window.location.origin + window.location.pathname;
-    window.history.pushState({}, '', cleanUrl); 
+    if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http://') || query.startsWith('https://')) {
+      performSearch(e);
+      return;
+    }
+
+    const match = getAllData().find(i => i.name.toLowerCase().includes(query));
+    if (match) {
+      window.open(match.url, '_blank');
+    } else {
+      performSearch(e);
+    }
   }
 
-  async function feelingLucky(e) {
-    if(e) e.preventDefault(); const query = document.getElementById('homeSearchInput').value.trim().toLowerCase(); if (!query) return;
-    if ((query.includes('.') && !query.includes(' ')) || query.startsWith('http://') || query.startsWith('https://')) { performSearch(e); return; }
-    const { data: dbPages } = await supabase.from('indexed_pages').select('*').ilike('name', `%${query}%`).limit(1);
-    const match = defaultApps.find(i => i.name.toLowerCase().includes(query)) || (dbPages && dbPages[0]);
-    if (match) window.open(match.url, '_blank'); else performSearch(e);
+  function onResultInputChange() {
+    document.getElementById('resClearBtn').classList.toggle('visible', document.getElementById('resultsSearchInput').value.length > 0);
   }
 
-  function onResultInputChange() { document.getElementById('resClearBtn').classList.toggle('visible', document.getElementById('resultsSearchInput').value.length > 0); }
-  function clearResultSearch() { document.getElementById('resultsSearchInput').value = ''; document.getElementById('resultsSearchInput').focus(); }
-  function toggleAppsMenu() { document.getElementById('appsDropdown').classList.toggle('visible'); }
+  function clearResultSearch() {
+    document.getElementById('resultsSearchInput').value = '';
+    document.getElementById('resultsSearchInput').focus();
+  }
 
+  function toggleAppsMenu() {
+    document.getElementById('appsDropdown').classList.toggle('visible');
+  }
+
+  // === MANUAL INDEX MODAL ===
   function openIndexModal() {
-    document.getElementById('modalFormView').style.display = 'block'; document.getElementById('modalSuccessView').style.display = 'none';
-    document.getElementById('submitIndexBtn').style.display = 'block'; document.getElementById('indexUrl').value = '';
-    document.getElementById('indexTitle').value = ''; document.getElementById('indexDesc').value = '';
-    document.getElementById('indexModal').classList.add('visible'); document.getElementById('appsDropdown').classList.remove('visible');
+    document.getElementById('modalFormView').style.display = 'block';
+    document.getElementById('modalSuccessView').style.display = 'none';
+    document.getElementById('submitIndexBtn').style.display = 'block';
+    document.getElementById('indexUrl').value = '';
+    document.getElementById('indexTitle').value = '';
+    document.getElementById('indexModal').classList.add('visible');
+    document.getElementById('appsDropdown').classList.remove('visible');
   }
 
-  function closeIndexModal() { document.getElementById('indexModal').classList.remove('visible'); }
+  function closeIndexModal() {
+    document.getElementById('indexModal').classList.remove('visible');
+  }
 
-  async function submitForIndexing() {
-    const url = document.getElementById('indexUrl').value.trim(); const title = document.getElementById('indexTitle').value.trim(); const desc = document.getElementById('indexDesc').value.trim();
+  function submitForIndexing() {
+    const url = document.getElementById('indexUrl').value.trim();
+    const title = document.getElementById('indexTitle').value.trim();
+
     if (!url || !title) { alert('Please fill out both the URL and Title fields.'); return; }
-    const { error } = await supabase.from('indexed_pages').insert([{ name: title, url: url, desc: desc || `User-indexed page: ${title}`, is_auto: false }]);
-    if (error) { alert("Error indexing page: " + error.message); return; }
-    document.getElementById('modalFormView').style.display = 'none'; document.getElementById('modalSuccessView').style.display = 'block'; document.getElementById('submitIndexBtn').style.display = 'none';
-    showToast('Page indexed successfully! Reloading...'); setTimeout(() => window.location.reload(), 2500);
+
+    saveIndexedPage({ name: title, url: url, desc: `User-indexed page: ${title}` });
+
+    document.getElementById('modalFormView').style.display = 'none';
+    document.getElementById('modalSuccessView').style.display = 'block';
+    document.getElementById('submitIndexBtn').style.display = 'none';
+
+    showToast('Page indexed successfully! Try searching for it now.');
+    setTimeout(() => closeIndexModal(), 2500);
   }
 
-  function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
 
-  document.addEventListener('click', (e) => { const dd = document.getElementById('appsDropdown'); if (!dd.contains(e.target) && !e.target.closest('.apps-btn')) dd.classList.remove('visible'); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeIndexModal(); document.getElementById('appsDropdown').classList.remove('visible'); hideHomeSuggestions(); } });
+  document.addEventListener('click', (e) => {
+    const dd = document.getElementById('appsDropdown');
+    if (!dd.contains(e.target) && !e.target.closest('.apps-btn')) dd.classList.remove('visible');
+  });
 
-  // SEO: URL Parameter Auto-Search (Allows Google Sitelinks Search Box to work)
-  window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const queryParam = urlParams.get('q');
-    if (queryParam) {
-      document.getElementById('homeSearchInput').value = queryParam;
-      performSearch(null, false);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeIndexModal();
+      document.getElementById('appsDropdown').classList.remove('visible');
+      hideHomeSuggestions();
     }
   });
 </script>
