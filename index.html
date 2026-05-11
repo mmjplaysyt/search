@@ -340,16 +340,21 @@
       resultsBody.innerHTML = `<div class="no-results"><div class="no-results-icon">🔍</div><h2>No results found for "${query}"</h2><p>Your search did not match any pages.</p></div>`;
     }
     
-    // SEO: Update URL so it can be shared/shared on Google without reloading
+    // SEO: Update URL so it can be shared without reloading
     window.history.pushState({}, '', `?q=${encodeURIComponent(query)}`);
     window.scrollTo(0, 0);
   }
 
   function goHome() { 
-    document.getElementById('homeView').classList.remove('hidden'); document.getElementById('resultsView').classList.remove('visible'); 
-    document.getElementById('homeSearchInput').value = ''; document.getElementById('homeClearBtn').classList.remove('visible'); 
+    document.getElementById('homeView').classList.remove('hidden'); 
+    document.getElementById('resultsView').classList.remove('visible'); 
+    document.getElementById('homeSearchInput').value = ''; 
+    document.getElementById('homeClearBtn').classList.remove('visible'); 
     document.getElementById('homeSearchInput').focus(); 
-    window.history.pushState({}, '', '/'); 
+    
+    // FIX: Uses the full clean GitHub Pages URL so it doesn't leave a "?" at the end
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.pushState({}, '', cleanUrl); 
   }
 
   async function feelingLucky(e) {
@@ -387,11 +392,7 @@
   document.addEventListener('click', (e) => { const dd = document.getElementById('appsDropdown'); if (!dd.contains(e.target) && !e.target.closest('.apps-btn')) dd.classList.remove('visible'); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeIndexModal(); document.getElementById('appsDropdown').classList.remove('visible'); hideHomeSuggestions(); } });
 
-  // ==========================================
-  //      SEO: URL PARAMETER AUTO-SEARCH
-  // ==========================================
-  // This checks if someone visits the link directly (e.g., ?q=minecraft)
-  // This is REQUIRED for Google's Sitelinks Search Box to work!
+  // SEO: URL Parameter Auto-Search (Allows Google Sitelinks Search Box to work)
   window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const queryParam = urlParams.get('q');
