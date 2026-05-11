@@ -45,6 +45,11 @@
   .nav-btn { color: rgba(0,0,0,0.87); text-decoration: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; background: none; border: none; font-family: inherit; font-size: 13px; }
   .nav-btn:hover { background: rgba(0,0,0,0.05); text-decoration: underline; }
 
+  .apps-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; }
+  .apps-btn:hover { background: rgba(0,0,0,0.05); }
+  .apps-grid-icon { width: 24px; height: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .apps-grid-icon span { width: 6px; height: 6px; border-radius: 50%; background: #5f6368; }
+
   .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0078d4, #00b4d8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; cursor: pointer; margin-left: 4px; text-decoration: none; }
 
   .suggestions-container { width: 100%; position: absolute; top: 46px; left: 0; padding: 0 16px; z-index: 100; }
@@ -80,12 +85,20 @@
   .no-results { text-align: center; padding: 60px 20px; max-width: 600px; }
   .no-results h2 { font-size: 20px; margin-bottom: 12px; color: #202124; }
   .no-results p { font-size: 14px; color: #70757a; line-height: 1.6; margin-bottom: 20px; }
-  .auto-index-btn { background-color: #4285F4; color: white; border: none; border-radius: 24px; padding: 12px 24px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; box-shadow: 0 2px 8px rgba(66,133,244,0.3); }
 
   .footer { background: #f2f2f2; margin-top: auto; }
   .footer-top { padding: 15px 30px; border-bottom: 1px solid #dadce0; font-size: 15px; color: rgba(0,0,0,0.54); }
   .footer-bottom { padding: 12px 30px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   .footer-bottom a { color: #70757a; text-decoration: none; font-size: 14px; padding: 0 8px; cursor: pointer; } .footer-bottom a:hover { text-decoration: underline; }
+
+  /* Apps Dropdown */
+  .apps-dropdown { position: absolute; top: 50px; right: 16px; width: 300px; background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); padding: 16px; display: none; z-index: 500; }
+  .apps-dropdown.visible { display: block; }
+  .apps-dropdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .app-shortcut { display: flex; flex-direction: column; align-items: center; padding: 12px 4px; border-radius: 8px; text-decoration: none; color: #3c4043; transition: background 0.15s; gap: 6px; }
+  .app-shortcut:hover { background: #f1f3f4; }
+  .app-shortcut-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .app-shortcut-label { font-size: 11px; text-align: center; line-height: 1.2; }
 
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; display: none; align-items: center; justify-content: center; } .modal-overlay.visible { display: flex; }
   .modal-box { background: #fff; border-radius: 8px; width: 480px; max-width: 90vw; box-shadow: 0 4px 16px rgba(0,0,0,0.2); overflow: hidden; }
@@ -113,6 +126,9 @@
 <div class="home-view" id="homeView">
   <header class="home-header">
     <button class="nav-btn" onclick="openIndexModal()">Index a Page</button>
+    <div class="apps-btn" onclick="toggleAppsMenu()">
+      <div class="apps-grid-icon"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
     <a href="https://mmjplaysyt.work.gd/Minecraft" class="avatar" title="MMJ Profile">M</a>
   </header>
 
@@ -160,6 +176,40 @@
   <main class="results-body" id="resultsBody"></main>
 </div>
 
+<!-- APPS DROPDOWN -->
+<aside class="apps-dropdown" id="appsDropdown" role="menu">
+  <div class="apps-dropdown-grid">
+    <a href="https://mmjplaysyt.github.io/AI-Asistent/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;">🤖</div>
+      <div class="app-shortcut-label">AI Assistant</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/social-media/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#e74c3c,#f39c12);color:#fff;">💬</div>
+      <div class="app-shortcut-label">Social Media</div>
+    </a>
+    <a href="https://mmjplaysyt.work.gd/Minecraft" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#0078d4,#00b4d8);color:#fff;">🌐</div>
+      <div class="app-shortcut-label">Webpage</div>
+    </a>
+    <a href="https://mmjgaming.github.io/Minecraft-/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;">⛏️</div>
+      <div class="app-shortcut-label">Minecraft</div>
+    </a>
+    <a href="https://mmjgaming.github.io/academy/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;">🎓</div>
+      <div class="app-shortcut-label">Academy</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/code-org/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#3498db,#2980b9);color:#fff;">💻</div>
+      <div class="app-shortcut-label">Learn Code</div>
+    </a>
+    <a href="https://mmjplaysyt.github.io/mail/" target="_blank" class="app-shortcut">
+      <div class="app-shortcut-icon" style="background:linear-gradient(135deg,#ea4335,#fbbc05);color:#fff;">✉️</div>
+      <div class="app-shortcut-label">MMJ Mail</div>
+    </a>
+  </div>
+</aside>
+
 <div class="modal-overlay" id="indexModal">
   <div class="modal-box">
     <div class="modal-header"><h2>Index a Page</h2><button class="modal-close" onclick="closeIndexModal()">✕</button></div>
@@ -177,7 +227,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-  // === SUPABASE INITIALIZATION (Only declared once) ===
+  // === SUPABASE INITIALIZATION ===
   const SUPABASE_URL = 'https://dyhcscqrdbhdakojrbzc.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5aGNzY3FyZGJoZGFrb2pyYnpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NjM2MTgsImV4cCI6MjA5NDAzOTYxOH0.NxFX-q8l8KjWNVrl0wfS73Kkd5rhMpI9dKUvb9t0JxY';
   
@@ -187,14 +237,15 @@
     alert("Failed to load Supabase. Check your internet or ad blocker.");
   }
 
-  // === DEFAULT APPS ===
+  // === DEFAULT APPS (Added Mail) ===
   const defaultApps = [
     { name: 'AI Assistant', url: 'https://mmjplaysyt.github.io/AI-Asistent/', icon: '🤖', type: 'app', desc: 'Your smart AI chat companion.' },
     { name: 'Social Media', url: 'https://mmjplaysyt.github.io/social-media/', icon: '💬', type: 'app', desc: 'Connect with the MMJ community.' },
     { name: 'MMJ Webpage', url: 'https://mmjplaysyt.work.gd/Minecraft', icon: '🌐', type: 'app', desc: 'The official MMJ homepage.' },
     { name: 'Minecraft', url: 'https://mmjgaming.github.io/Minecraft-/', icon: '⛏️', type: 'app', desc: 'Play MMJ Minecraft.' },
     { name: 'Academy', url: 'https://mmjgaming.github.io/academy/', icon: '🎓', type: 'app', desc: 'Learn with MMJ Academy.' },
-    { name: 'Learn Code', url: 'https://mmjplaysyt.github.io/code-org/', icon: '💻', type: 'app', desc: 'Start your coding journey.' }
+    { name: 'Learn Code', url: 'https://mmjplaysyt.github.io/code-org/', icon: '💻', type: 'app', desc: 'Start your coding journey.' },
+    { name: 'MMJ Mail', url: 'https://mmjplaysyt.github.io/mail/', icon: '✉️', type: 'app', desc: 'Send and receive emails with MMJ Mail.' }
   ];
 
   // === SUPABASE INTERACTIONS ===
@@ -230,6 +281,9 @@
 
   function hideHomeSuggestions() { document.getElementById('homeSuggestionsBox').classList.remove('visible'); }
 
+  // === APPS MENU LOGIC ===
+  function toggleAppsMenu() { document.getElementById('appsDropdown').classList.toggle('visible'); }
+
   // === SEARCH EXECUTION ===
   async function performSearch(e, fromResultsPage = false) {
     if(e) e.preventDefault();
@@ -245,6 +299,7 @@
     document.getElementById('resultsSearchInput').value = query;
     document.getElementById('resClearBtn').classList.toggle('visible', query.length > 0);
     hideHomeSuggestions();
+    document.getElementById('appsDropdown').classList.remove('visible');
 
     const resultsBody = document.getElementById('resultsBody');
     resultsBody.innerHTML = `<div class="results-stats">Searching MMJ Database...</div>`;
@@ -276,7 +331,7 @@
   function clearResultSearch() { document.getElementById('resultsSearchInput').value = ''; document.getElementById('resultsSearchInput').focus(); }
 
   // === MANUAL INDEX MODAL ===
-  function openIndexModal() { document.getElementById('modalFormView').style.display = 'block'; document.getElementById('modalSuccessView').style.display = 'none'; document.getElementById('submitIndexBtn').style.display = 'block'; document.getElementById('indexUrl').value = ''; document.getElementById('indexTitle').value = ''; document.getElementById('indexDesc').value = ''; document.getElementById('indexModal').classList.add('visible'); }
+  function openIndexModal() { document.getElementById('modalFormView').style.display = 'block'; document.getElementById('modalSuccessView').style.display = 'none'; document.getElementById('submitIndexBtn').style.display = 'block'; document.getElementById('indexUrl').value = ''; document.getElementById('indexTitle').value = ''; document.getElementById('indexDesc').value = ''; document.getElementById('indexModal').classList.add('visible'); document.getElementById('appsDropdown').classList.remove('visible'); }
   function closeIndexModal() { document.getElementById('indexModal').classList.remove('visible'); }
 
   async function submitForIndexing() {
@@ -295,6 +350,7 @@
 
   function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000); }
 
+  document.addEventListener('click', (e) => { const dd = document.getElementById('appsDropdown'); if (!dd.contains(e.target) && !e.target.closest('.apps-btn')) dd.classList.remove('visible'); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeIndexModal(); hideHomeSuggestions(); } });
 
   // === CHECK CONNECTION ON LOAD ===
@@ -303,7 +359,6 @@
       const { data, error } = await db.from('pages').select('id').limit(1);
       if (error) {
         console.error("Database Connection Error:", error);
-        document.body.innerHTML = `<div style="padding: 50px; text-align: center; color: red;"><h1>Database Error</h1><p>Could not connect to Supabase. Did you run the SQL setup?</p><p>Error: ${error.message}</p></div>`;
       } else {
         console.log("✅ Successfully connected to MMJ Supabase Database!");
       }
